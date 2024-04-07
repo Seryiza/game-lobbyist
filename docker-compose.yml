@@ -1,0 +1,22 @@
+version: "3.4"
+services:
+  neko:
+    #image: "m1k1o/neko:chromium"
+    build: ./
+    restart: "unless-stopped"
+    shm_size: "2gb"
+    volumes:
+      - "./supervisord.conf:/etc/neko/supervisord/chromium.conf"
+      - "./policies.json:/etc/chromium/policies/managed/policies.json"
+    ports:
+      - "8080:8080"
+      - "9222:9223"
+      - "52000-52100:52000-52100/udp"
+    cap_add:
+      - SYS_ADMIN
+    environment:
+      NEKO_SCREEN: '800x600@60'
+      NEKO_PASSWORD: neko
+      NEKO_PASSWORD_ADMIN: admin
+      NEKO_EPR: 52000-52100
+      #NEKO_NAT1TO1: <your-IP>
